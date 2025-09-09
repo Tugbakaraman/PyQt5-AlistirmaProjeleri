@@ -84,11 +84,22 @@ class Main(QMainWindow):
         layout=QVBoxLayout()
 
         self.text_edit=QTextEdit()
+        self.text_edit.textChanged.connect(self.text_changed)
         layout.addWidget(self.text_edit)
+
+        self.status_bar=self.statusBar()
+        self.status_bar.showMessage('Ready',5000)
+        
+        self.character_count=QLabel("Length: 0")
+        self.status_bar.addPermanentWidget(self.character_count)
 
         widget=QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
+
+    def text_changed(self):
+        text=self.text_edit.toPlainText()
+        self.character_count.setText(f'Length: {len(text)}')
 
     def newfile(self):
         self.text_edit.clear()
